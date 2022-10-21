@@ -1,0 +1,16 @@
+{
+    "name": "mrangelovofficial/diff",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mrangelovofficial\\Diff\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Georgi Angelov",
+            "email": "44762479+mrangelovofficial@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
