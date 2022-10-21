@@ -13,11 +13,11 @@ class Diff {
         }
     
     public function getOriginalString() : string {
-        return nl2br($this->originalFile);
+        return nl2br(htmlspecialchars($this->originalFile));
     }
 
     public function getTargetString() : string {
-        return nl2br($this->targetFile);
+        return nl2br(htmlspecialchars($this->targetFile));
     }
 
     public function getDiff() : string {
