@@ -12,7 +12,7 @@ $diffObject = new Diff($original,$target);
 ?>
 
 <pre class="prettyprint">
-<?php  echo $diffObject->getOriginalString() ?>
+<?php  echo $diffObject->getDiff() ?>
 </pre>
 
 <style>
