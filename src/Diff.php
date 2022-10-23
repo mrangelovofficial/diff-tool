@@ -4,13 +4,13 @@ namespace Mrangelovofficial\Diff;
 
 class Diff {
 
-    private int $lines = 0;
+    private int $maxLinesToCompare = 0;
 
     public function __construct(
         private string $originalFile,
-        private string $targetFile){
+        private string $targetFile) {
             $this->findLinesToCompare();
-        }
+    }
     
     public function getOriginalString() : string {
         return nl2br(htmlspecialchars($this->originalFile));
@@ -37,23 +37,17 @@ class Diff {
         $targetLines    = $this->getTargetLines();
         $lines          = "";
 
-        for ($line=0; $line < $this->lines; $line++) { 
-            $originalLine   = $originalLines[$line] ?? "";
-            $targetLine     = $targetLines[$line] ?? "";
+        for ($line=0; $line < $this->maxLinesToCompare; $line++) { 
+            $originalLine   = $originalLines[$line] ?? null;
+            $targetLine     = $targetLines[$line] ?? null;
 
-            $lines .= $line . ": ";
-            if($originalLine === $targetLine) {
-                $lines .= $originalLine;
-            }else {
-                $lines .= $originalLine;
-            }
-            $lines .= "\r\n";
+            $lines  .=  $this->prettyFormatLine($originalLine, $targetLine, $line);
         }
 
         return $lines;
     }
 
-    private function findLinesToCompare(): void{
+    private function findLinesToCompare(): void {
         $originalLinesCount  = count($this->getOriginalLines());
         $targetLinesCount   = count($this->getTargetLines());
         $lines = 0;
@@ -66,6 +60,24 @@ class Diff {
             $lines = $targetLinesCount;
         }
 
-        $this->lines = $lines;
+        $this->maxLinesToCompare = $lines;
+    }
+
+    private function prettyFormatLine(?string $originalLine, ?string $targetLine, int $lineNumber) : string {
+        $linesFormatted = "";
+
+        if($originalLine === $targetLine) {
+            $linesFormatted .= "<p class='defaultDiff'>$lineNumber: $originalLine </p>";
+        }else {
+            if(!is_null($originalLine)) {
+                $linesFormatted .= "<p class='oldDiff defaultDiff'>$lineNumber:- $originalLine </p>";
+            }
+
+            if(!is_null($targetLine)) {
+                $linesFormatted .= "<p class='newDiff defaultDiff'>$lineNumber:+ $targetLine</p>";
+            }
+        }
+
+        return $linesFormatted;
     }
 }
